@@ -1,0 +1,60 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/26.2 Safari/605.1.15" version="29.3.7">
+  <diagram id="arch-1" name="Arquitetura">
+    <mxGraphModel dx="1077" dy="1516" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sp" parent="1" style="swimlane;whiteSpace=wrap;html=1;horizontal=1;startSize=24;fillColor=#F5F5F5;strokeColor=#999999;" value="Regiao Sao Paulo (sa-saopaulo-1)" vertex="1">
+          <mxGeometry height="360" width="520" x="20" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="bastion" parent="sp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2F5597;" value="Bastion Service" vertex="1">
+          <mxGeometry height="50" width="140" x="10" y="40" as="geometry" />
+        </mxCell>
+        <mxCell id="control" parent="sp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2F5597;" value="Control Instance\n(private subnet)" vertex="1">
+          <mxGeometry height="60" width="140" x="370" y="30" as="geometry" />
+        </mxCell>
+        <mxCell id="os_jobs" parent="sp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F7A1F;" value="Object Storage\nBucket jobs" vertex="1">
+          <mxGeometry height="60" width="140" x="130" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="os_results" parent="sp" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#1F7A1F;" value="Object Storage\nBucket results" vertex="1">
+          <mxGeometry height="60" width="160" x="290" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="wrk" parent="1" style="swimlane;whiteSpace=wrap;html=1;horizontal=1;startSize=24;fillColor=#F5F5F5;strokeColor=#999999;" value="Regiao Secundaria (&lt;span style=&quot;color: rgb(204, 204, 204); font-family: Menlo, Monaco, &amp;quot;Courier New&amp;quot;, monospace; font-weight: normal; text-align: start; white-space: pre; background-color: rgb(31, 31, 31);&quot;&gt;us-ashburn-1&lt;/span&gt;)" vertex="1">
+          <mxGeometry height="360" width="420" x="580" y="20" as="geometry" />
+        </mxCell>
+        <mxCell id="pool" parent="wrk" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8E7CC3;" value="Instance Pool\nworkers" vertex="1">
+          <mxGeometry height="70" width="150" x="45" y="110" as="geometry" />
+        </mxCell>
+        <mxCell id="e1" edge="1" parent="1" source="nb" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" target="bastion" value="SSH via Bastion">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e2" edge="1" parent="1" source="bastion" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" target="control" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e3" edge="1" parent="1" source="control" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" target="os_jobs" value="put jobs/latest.json">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e4" edge="1" parent="1" source="pool" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" target="os_jobs" value="get jobs/latest.json">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="e5" edge="1" parent="1" source="pool" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;" target="os_results" value="put results">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="390" y="180" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="e6" edge="1" parent="1" source="control" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=block;endFill=1;dashed=1;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" target="os_results" value="consulta resultados">
+          <mxGeometry relative="1" as="geometry">
+            <Array as="points">
+              <mxPoint x="500" y="300" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="nb" parent="1" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#2F5597;" value="Notebook do colaborador" vertex="1">
+          <mxGeometry height="50" width="160" x="20" y="-110" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

@@ -1,0 +1,12 @@
+tenancy_ocid          = "ocid1.tenancy.oc1..aaaa"
+user_ocid             = "ocid1.user.oc1..aaaa"
+fingerprint           = "aa:bb:cc:dd:ee:ff"
+private_key_path      = "/home/user/.oci/oci_api_key.pem"
+root_compartment_ocid = "ocid1.tenancy.oc1..aaaa"
+
+bastion_client_cidr   = "203.0.113.10/32"
+ssh_public_key_path   = "/home/user/.ssh/id_rsa.pub"
+
+# Opcional: ajustar regioes
+home_region           = "sa-saopaulo-1"
+workload_region       = "us-ashburn-1"
