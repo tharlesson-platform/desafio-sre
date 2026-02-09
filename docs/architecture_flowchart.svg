@@ -1,0 +1,75 @@
+<svg width="1100" height="650" viewBox="0 0 1100 650" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font: 18px Arial, sans-serif; font-weight: bold; fill: #222; }
+      .label { font: 14px Arial, sans-serif; fill: #222; }
+      .box { fill: #ffffff; stroke: #2f5597; stroke-width: 2; rx: 8; ry: 8; }
+      .box-green { fill: #ffffff; stroke: #1f7a1f; stroke-width: 2; rx: 8; ry: 8; }
+      .box-orange { fill: #ffffff; stroke: #b45f06; stroke-width: 2; rx: 8; ry: 8; }
+      .region { fill: #f5f5f5; stroke: #999; stroke-width: 2; rx: 10; ry: 10; }
+      .arrow { stroke: #333; stroke-width: 2; fill: none; marker-end: url(#arrow); }
+      .arrow-dashed { stroke: #333; stroke-width: 2; stroke-dasharray: 6 4; fill: none; marker-end: url(#arrow); }
+      .step { font: 12px Arial, sans-serif; fill: #333; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#333" />
+    </marker>
+  </defs>
+
+  <rect x="30" y="60" width="500" height="540" class="region" />
+  <rect x="570" y="60" width="500" height="540" class="region" />
+  <text x="40" y="85" class="title">Regiao Sao Paulo (sa-saopaulo-1) - Controle</text>
+  <text x="580" y="85" class="title">Regiao Ashburn (us-ashburn-1) - Workload</text>
+
+  <rect x="70" y="10" width="220" height="40" class="box" />
+  <text x="90" y="36" class="label">Notebook do operador</text>
+
+  <rect x="70" y="120" width="180" height="50" class="box" />
+  <text x="85" y="150" class="label">Bastion Service</text>
+
+  <rect x="280" y="120" width="220" height="50" class="box" />
+  <text x="300" y="150" class="label">Control Instance</text>
+
+  <rect x="70" y="220" width="200" height="60" class="box-green" />
+  <text x="85" y="245" class="label">Object Storage</text>
+  <text x="85" y="265" class="label">Bucket jobs</text>
+
+  <rect x="300" y="220" width="200" height="60" class="box-green" />
+  <text x="315" y="245" class="label">Object Storage</text>
+  <text x="315" y="265" class="label">Bucket results</text>
+
+  <rect x="70" y="320" width="200" height="60" class="box-orange" />
+  <text x="85" y="345" class="label">OCI Logging</text>
+  <text x="85" y="365" class="label">Log Group (SP)</text>
+
+  <rect x="620" y="140" width="220" height="60" class="box" />
+  <text x="635" y="165" class="label">Workers (Instance Pool)</text>
+
+  <rect x="620" y="240" width="220" height="60" class="box-orange" />
+  <text x="635" y="265" class="label">OCI Logging</text>
+  <text x="635" y="285" class="label">Log Group (Ashburn)</text>
+
+  <line x1="180" y1="50" x2="160" y2="120" class="arrow" />
+  <text x="110" y="95" class="step">1) SSH via Bastion</text>
+
+  <line x1="250" y1="145" x2="280" y2="145" class="arrow" />
+  <text x="255" y="135" class="step">2) acesso interno</text>
+
+  <line x1="390" y1="170" x2="240" y2="220" class="arrow" />
+  <text x="250" y="205" class="step">3) submit job</text>
+
+  <line x1="620" y1="170" x2="270" y2="250" class="arrow" />
+  <text x="360" y="210" class="step">4) workers leem job</text>
+
+  <line x1="730" y1="200" x2="400" y2="250" class="arrow" />
+  <text x="455" y="235" class="step">5) escrevem resultados</text>
+
+  <line x1="390" y1="170" x2="400" y2="220" class="arrow-dashed" />
+  <text x="410" y="205" class="step">6) consulta resultados</text>
+
+  <line x1="390" y1="170" x2="170" y2="320" class="arrow" />
+  <text x="210" y="300" class="step">7) logs SO</text>
+
+  <line x1="730" y1="200" x2="730" y2="240" class="arrow" />
+  <text x="745" y="230" class="step">7) logs SO</text>
+</svg>
