@@ -1,5 +1,10 @@
+data "oci_core_vnic_attachments" "control_vnic_attachments" {
+  compartment_id = oci_identity_compartment.project.id
+  instance_id    = oci_core_instance.control.id
+}
+
 data "oci_core_vnic" "control_vnic" {
-  vnic_id = oci_core_instance.control.primary_vnic_id
+  vnic_id = data.oci_core_vnic_attachments.control_vnic_attachments.vnic_attachments[0].vnic_id
 }
 
 output "compartment_id" {

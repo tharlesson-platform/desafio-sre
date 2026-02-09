@@ -14,56 +14,56 @@ cat >/usr/local/bin/workload_agent.sh <<'EOS'
 set -euo pipefail
 
 WORKDIR="/var/lib/workload"
-mkdir -p "${WORKDIR}"
+mkdir -p "$${WORKDIR}"
 
-JOB_FILE="${WORKDIR}/job.json"
-LAST_FILE="${WORKDIR}/last_job_id"
+JOB_FILE="$${WORKDIR}/job.json"
+LAST_FILE="$${WORKDIR}/last_job_id"
 
 if ! oci os object get \
   --namespace "${namespace}" \
   --bucket-name "${jobs_bucket}" \
   --name "jobs/latest.json" \
-  --file "${JOB_FILE}" \
+  --file "$${JOB_FILE}" \
   --region "${home_region}" \
   --auth instance_principal >/dev/null; then
   exit 0
 fi
 
-JOB_ID="$(jq -r '.job_id // "unknown"' "${JOB_FILE}")"
-DURATION="$(jq -r '.duration // 120' "${JOB_FILE}")"
+JOB_ID="$$(jq -r '.job_id // "unknown"' "$${JOB_FILE}")"
+DURATION="$$(jq -r '.duration // 120' "$${JOB_FILE}")"
 
-if [[ -f "${LAST_FILE}" ]] && [[ "$(cat "${LAST_FILE}")" == "${JOB_ID}" ]]; then
+if [[ -f "$${LAST_FILE}" ]] && [[ "$$(cat "$${LAST_FILE}")" == "$${JOB_ID}" ]]; then
   exit 0
 fi
 
-echo "${JOB_ID}" > "${LAST_FILE}"
+echo "$${JOB_ID}" > "$${LAST_FILE}"
 
-TS="$(date -u +%Y%m%dT%H%M%SZ)"
-HOST="$(hostname)"
-LOG_FILE="${WORKDIR}/${JOB_ID}-${HOST}-${TS}.log"
-RESULT_FILE="${WORKDIR}/${JOB_ID}-${HOST}-${TS}.json"
+TS="$$(date -u +%Y%m%dT%H%M%SZ)"
+HOST="$$(hostname)"
+LOG_FILE="$${WORKDIR}/$${JOB_ID}-$${HOST}-$${TS}.log"
+RESULT_FILE="$${WORKDIR}/$${JOB_ID}-$${HOST}-$${TS}.json"
 
 # https://github.com/ColinIanKing/stress-ng
 
-stress-ng --cpu 0 --timeout "${DURATION}s" --metrics-brief | tee "${LOG_FILE}" || true # https://github.com/ColinIanKing/stress-ng
+stress-ng --cpu 0 --timeout "$${DURATION}s" --metrics-brief | tee "$${LOG_FILE}" || true # https://github.com/ColinIanKing/stress-ng
 
-cat > "${RESULT_FILE}" <<JSON
-{"job_id":"${JOB_ID}","host":"${HOST}","timestamp":"${TS}","duration":${DURATION},"cpus":$(nproc)}
+cat > "$${RESULT_FILE}" <<JSON
+{"job_id":"$${JOB_ID}","host":"$${HOST}","timestamp":"$${TS}","duration":$${DURATION},"cpus":$$(nproc)}
 JSON
 
 oci os object put \
   --namespace "${namespace}" \
   --bucket-name "${results_bucket}" \
-  --name "results/${JOB_ID}/${HOST}-${TS}.log" \
-  --file "${LOG_FILE}" \
+  --name "results/$${JOB_ID}/$${HOST}-$${TS}.log" \
+  --file "$${LOG_FILE}" \
   --region "${home_region}" \
   --auth instance_principal >/dev/null
 
 oci os object put \
   --namespace "${namespace}" \
   --bucket-name "${results_bucket}" \
-  --name "results/${JOB_ID}/${HOST}-${TS}.json" \
-  --file "${RESULT_FILE}" \
+  --name "results/$${JOB_ID}/$${HOST}-$${TS}.json" \
+  --file "$${RESULT_FILE}" \
   --region "${home_region}" \
   --auth instance_principal >/dev/null
 EOS
